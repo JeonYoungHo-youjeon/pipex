@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:46:24 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/22 12:59:32 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/22 14:41:37 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ typedef struct s_arg
 	char	**cmd_arg1;
 	char	*cmd2;
 	char	**cmd_arg2;
-	int		file_des[2];
+	int		pipe_fds[2];
 	pid_t	pid;
 }	t_arg;

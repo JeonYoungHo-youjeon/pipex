@@ -6,13 +6,11 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:41:15 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/22 12:59:51 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/24 17:23:14 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex.h"
-
-
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t len)
 {
@@ -176,12 +174,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-int	print_std_error(char *message)
-{
-	write(2, message, ft_strlen(message));
-	exit(1);
-}
-
 void	exit_perror(char *message)
 {	
 	perror(message);
@@ -218,7 +210,6 @@ char	**get_path_envp(char *envp[])
 	while (ft_strncmp("PATH", *envp, 4))
 		envp++;
 	path = *envp + 5;
-	printf("%s\n", path);
 	return (ft_split(path, ':'));
 }
 
@@ -229,8 +220,10 @@ char	*get_cmd_argv(char **path, char *cmd)
 	char	*path_cmd;
 	char	*tmp;
 
+	fd = access(cmd, X_OK);
+	if (fd != -1)
+		return (cmd);
 	path_cmd = ft_strjoin("/", cmd);
-	fd = 0;
 	i = 0;
 	while (path[i])
 	{
@@ -253,18 +246,20 @@ int	main(int ac, char *av[], char *envp[])
 {
 	//fd를 담아둘 구조체를 하나 선언한다.
 	t_arg	arg;
+	int		result;
 
 	//argc는 무조건 5개로 고정되어있으니 해당 부분 에러처리 먼저 해준다.
 	if (ac != 5)
-		print_std_error("argument error");
+		exit_perror("argument error");
+	result = 0;
 	
 	//infile 과 outfile을 open한다. open이 성공이 아니면(return이 -1 일때) 에러처리 해준다.
 	arg.infile = open(av[1], O_RDONLY);
 	if (arg.infile == -1)
-		exit_perror("infile error");
+		perror("infile");
 	arg.outfile = open(av[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (arg.infile == -1)
-		exit_perror("outfile error");
+	if (arg.outfile == -1)
+		exit_perror("outfile");
 	
 	// 환경변수에서 PATH를 찾아서 PATH= 이후의 글자를 ft_split 으로 : 로 나눠서 저장한다.
 	arg.path = get_path_envp(envp);
@@ -272,12 +267,44 @@ int	main(int ac, char *av[], char *envp[])
 	// command를 가져온 다음 실행가능한 PATH를 확인한다. 
 	arg.cmd_arg1 = ft_split(av[2], ' ');
 	arg.cmd_arg2 = ft_split(av[3], ' ');
-	if (arg.cmd_arg1 == NULL || arg.cmd_arg2 == NULL)
-		print_std_error("cmd missing error");
 	arg.cmd1 = get_cmd_argv(arg.path, arg.cmd_arg1[0]);
 	arg.cmd2 = get_cmd_argv(arg.path, arg.cmd_arg2[0]);
 	if (arg.cmd1 == NULL || arg.cmd2 == NULL)
-		print_std_error("path or cmd error");
-	printf("%s, %s \n", arg.cmd1, arg.cmd2);
+	{
+		result = 127;
+		perror("command not found");
+	}
+	// 파이프를 만든 다음 자식 프로세스를 만든다
+	if (pipe(arg.pipe_fds) < 0)
+		exit_perror("pipe error");
 	
+	arg.pid = fork();
+	
+	// pid 값을 이용하여 에러와 자식 프로세스와 부모 프로세스를 분기한다
+	if (arg.pid == -1)
+		exit_perror("fork error");
+	else if (arg.pid == 0)
+	{
+		// 표준 입력을 infile로 바꾸고, 표준 출력을 pipe 로 바꾼 다음 명령어를 실행한다
+		close(arg.pipe_fds[0]);
+		dup2(arg.infile, STDIN_FILENO);
+		dup2(arg.pipe_fds[1], STDOUT_FILENO);
+		close(arg.pipe_fds[1]);
+		close(arg.infile);
+		execve(arg.cmd1, arg.cmd_arg1, envp);
+	}
+	else
+	{
+		// 표준 입력을 pipe로 바꾸고, 표준 출력을 outfile 로 바꾼다
+		close(arg.pipe_fds[1]);
+		dup2(arg.pipe_fds[0], STDIN_FILENO);
+		dup2(arg.outfile, STDOUT_FILENO);
+		close(arg.pipe_fds[0]);
+		close(arg.outfile);
+		
+		// 자식 프로세스가 끝나기를 기다려서 pipe에 값을 받아온 다음 명령어를 실행한다
+		waitpid(arg.pid, NULL, WNOHANG);
+		execve(arg.cmd2, arg.cmd_arg2, envp);
+	}
+	return (result);
 }
