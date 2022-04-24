@@ -1,6 +1,14 @@
-NAME		= pipex
+NAME		=	pipex
 
-SRCS		= pipex.c \
+D_UTILES	=	utiles/
+SRCS		=	pipex.c \
+				$(D_UTILES)exit_perror.c \
+				$(D_UTILES)ft_split.c \
+				$(D_UTILES)ft_strdup.c \
+				$(D_UTILES)ft_strjoin.c \
+				$(D_UTILES)ft_strlcpy.c \
+				$(D_UTILES)ft_strlen.c \
+				$(D_UTILES)ft_strncmp.c \
 			
 OBJS		= $(SRCS:%.c=%.o)
 

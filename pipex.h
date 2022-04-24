@@ -6,10 +6,12 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:46:24 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/22 14:41:37 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/24 17:49:19 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PIPEX_H
+# define PIPEX_H
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -27,3 +29,20 @@ typedef struct s_arg
 	int		pipe_fds[2];
 	pid_t	pid;
 }	t_arg;
+
+/* utiles */
+size_t	ft_strlcpy(char *dst, const char *src, size_t len);
+size_t	ft_strlen(const char *str);
+char	*ft_strdup(const char *s);
+char	**ft_split(char const *s, char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	exit_perror(char *message);
+
+/* main */
+char	**get_path_envp(char *envp[]);
+char	*get_cmd_argv(char **path, char *cmd);
+int		arg_parse(t_arg *arg, char *av[], char *envp[]);
+void	control_fds(int closed, int std_in, int std_out);
+
+#endif
