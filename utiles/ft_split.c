@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:41:15 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 15:50:08 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 16:46:59 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	*is_free(char **str, int str_index)
 		i++;
 	}
 	free(str);
+	exit_perror("ft_split fail");
 	return (NULL);
 }
 
