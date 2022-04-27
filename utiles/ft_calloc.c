@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/24 17:51:45 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 15:53:47 by youjeon          ###   ########.fr       */
+/*   Created: 2021/05/12 13:45:39 by youjeon           #+#    #+#             */
+/*   Updated: 2022/04/27 15:46:09 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-char	*ft_strdup(const char *s)
+void	*ft_calloc(size_t n, size_t size)
 {
 	char	*new_mem;
-	int		size;
-	int		i;
+	size_t	length;
 
 	new_mem = NULL;
-	size = ft_strlen(s);
-	i = 0;
-	new_mem = ft_calloc(1, size + 1);
-	while (s[i])
+	length = size * n;
+	if (length == 0)
 	{
-		new_mem[i] = s[i];
-		i++;
+		new_mem = malloc(0);
+		return (new_mem);
 	}
-	new_mem[i] = '\0';
+	if (length / n != size || length % size != 0)
+		return (NULL);
+	new_mem = malloc(length);
+	if (!(new_mem))
+		exit_perror("memory allocation fail");
+	ft_bzero(new_mem, length);
 	return (new_mem);
 }

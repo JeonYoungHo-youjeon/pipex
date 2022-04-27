@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:46:24 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/24 17:49:19 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 15:48:06 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	exit_perror(char *message);
+void	*ft_bzero(void *str, size_t n);
+void	*ft_calloc(size_t n, size_t size);
 
 /* main */
 char	**get_path_envp(char *envp[]);

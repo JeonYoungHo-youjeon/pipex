@@ -9,7 +9,9 @@ SRCS		=	pipex.c \
 				$(D_UTILES)ft_strlcpy.c \
 				$(D_UTILES)ft_strlen.c \
 				$(D_UTILES)ft_strncmp.c \
-			
+				$(D_UTILES)ft_bzero.c \
+				$(D_UTILES)ft_calloc.c \
+
 OBJS		= $(SRCS:%.c=%.o)
 
 LIBC		= ar rc
@@ -26,10 +28,10 @@ $(NAME)		:	$(OBJS)
 
 clean		:
 		rm -f $(OBJS)
-		
+
 fclean		:	clean
 		rm -f $(NAME)
-		
+
 re			:	fclean all
 
 .PHONY		:	all clean fclean re bonus
