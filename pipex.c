@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:41:15 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 18:37:23 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 19:12:33 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	arg_parse(t_arg *arg, char *av[], char *envp[])
 {
 	int	result;
 
-	result = 0;
+	result = 1;
 	arg->infile = open(av[1], O_RDONLY);
 	if (arg->infile == -1)
 		perror("infile");
@@ -65,7 +65,6 @@ int	arg_parse(t_arg *arg, char *av[], char *envp[])
 	if (arg->outfile == -1)
 		exit_perror("outfile", 1);
 	arg->path = get_path_envp(envp);
-	printf("testlast\n");
 	arg->cmd_arg1 = ft_split(av[2], ' ');
 	arg->cmd_arg2 = ft_split(av[3], ' ');
 	arg->cmd1 = get_cmd_argv(arg->path, arg->cmd_arg1[0]);
@@ -106,14 +105,14 @@ int	main(int ac, char *av[], char *envp[])
 	{
 		control_fds(arg.pipe_fds[0], arg.infile, arg.pipe_fds[1]);
 		if (execve(arg.cmd1, arg.cmd_arg1, envp) == -1)
-			exit_perror("execve fail", 1);
+			exit_perror("execve fail", result);
 	}
 	else
 	{
 		control_fds(arg.pipe_fds[1], arg.pipe_fds[0], arg.outfile);
 		waitpid(arg.pid, NULL, WNOHANG);
 		if (execve(arg.cmd2, arg.cmd_arg2, envp) == -1)
-			exit_perror("execve fail", 1);
+			exit_perror("execve fail", result);
 	}
-	return (result);
+	return (0);
 }
