@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 13:45:39 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 16:36:50 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 18:38:07 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	*ft_calloc(size_t n, size_t size)
 		return (new_mem);
 	}
 	if (length / n != size || length % size != 0)
-		exit_perror("memory allocation fail");
+		exit_perror("memory allocation fail", 1);
 	new_mem = malloc(length);
 	if (!(new_mem))
-		exit_perror("memory allocation fail");
+		exit_perror("memory allocation fail", 1);
 	ft_bzero(new_mem, length);
 	return (new_mem);
 }

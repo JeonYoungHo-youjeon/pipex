@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:41:15 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 18:06:57 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 18:37:57 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	*is_free(char **str, int str_index)
 		i++;
 	}
 	free(str);
-	exit_perror("ft_split fail");
+	exit_perror("ft_split fail", 1);
 	return (NULL);
 }
 
@@ -83,7 +83,7 @@ char	**ft_split(char const *s, char c)
 
 	new_mem = NULL;
 	if (!s)
-		exit_perror("ft_split fail");
+		exit_perror("ft_split fail", 1);
 	word_count = get_word_cnt(s, c);
 	new_mem = (char **)ft_calloc(sizeof(char *), (word_count + 1));
 	new_mem = set_worddup(s, c, new_mem);

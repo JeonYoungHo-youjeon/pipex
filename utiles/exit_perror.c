@@ -6,14 +6,14 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:53:26 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/24 17:54:27 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 18:40:09 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	exit_perror(char *message)
-{	
+void	exit_perror(char *message, int code)
+{
 	perror(message);
-	exit(1);
+	exit(code);
 }

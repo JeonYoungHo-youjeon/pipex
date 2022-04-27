@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:46:24 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 15:48:06 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 18:36:39 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
-void	exit_perror(char *message);
+void	exit_perror(char *message, int code);
 void	*ft_bzero(void *str, size_t n);
 void	*ft_calloc(size_t n, size_t size);
 
