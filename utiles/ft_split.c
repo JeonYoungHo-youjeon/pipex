@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:41:15 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 16:46:59 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 18:06:57 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	**set_worddup(char const *s, char c, char **mem)
 		word_length = 0;
 		while (s[word_length] && s[word_length] != c)
 			word_length++;
-		mem[i] = (char *)malloc(sizeof(char) * (word_length + 1));
+		mem[i] = (char *)ft_calloc(sizeof(char), (word_length + 1));
 		if (!(mem[i]))
 			return (is_free(mem, i));
 		ft_strlcpy(mem[i], s, word_length + 1);

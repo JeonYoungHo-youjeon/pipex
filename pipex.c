@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:41:15 by youjeon           #+#    #+#             */
-/*   Updated: 2022/04/27 16:00:23 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/04/27 18:29:21 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ char	**get_path_envp(char *envp[])
 {
 	char	*path;
 
-	while (ft_strncmp("PATH", *envp, 4))
+	while (*envp && ft_strncmp("PATH", *envp, 4))
 		envp++;
+	if (*envp == NULL)
+		exit_perror("PATH error");
 	path = *envp + 5;
 	return (ft_split(path, ':'));
 }
@@ -63,6 +65,7 @@ int	arg_parse(t_arg *arg, char *av[], char *envp[])
 	if (arg->outfile == -1)
 		exit_perror("outfile");
 	arg->path = get_path_envp(envp);
+	printf("testlast\n");
 	arg->cmd_arg1 = ft_split(av[2], ' ');
 	arg->cmd_arg2 = ft_split(av[3], ' ');
 	arg->cmd1 = get_cmd_argv(arg->path, arg->cmd_arg1[0]);
