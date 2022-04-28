@@ -16,7 +16,7 @@ char	**get_path_envp(char *envp[])
 {
 	char	*path;
 
-	while (*envp && ft_strncmp("PATH", *envp, 4))
+	while (*envp && ft_strncmp("PATH=", *envp, 5))
 		envp++;
 	if (*envp == NULL)
 		exit_perror("PATH error", 127);
